@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galeria Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-cyan-500 text-white flex justify-center items-center h-screen w-screen"
+th:style="'background-image:url('+@{/images/fondoNuevo.jpg}+');
+background-size:cover; background- position:center;backdrop-filter:blur(2px)'"
+>
+<header th:replace="~{layout/layout :: header}"></header>
+
+<h1 class="text-6xl font-bold animate-pulse hover:text-yellow.300
+hover:scale-110 transition-all"
+style="text-shadow: 3px 3px 6px rgba(72,70,212,0.925)">
+    GALERIA USTA TUNJA
+</h1>
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace ="~{layout/layout :: head}"></head>
+<body class="bg-red-100 text-white flex flex-col justify-center items-center h-screen w-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+<section class="w-full h-full flex flex-col justify-center items-center gap-4 p-4 text-cyan-950 pt-32">
+    <h1 class="text-3xl font-bold uppercase mb-6">[[${title}]]</h1>
+    <div class="overflow-y-scroll w-3/5 m-5 p-8">
+        <form th:object="${obraEdit}" th:action="@{/crearObra}" method="post" enctype="multipart/form-data">
+            <div class="flex flex-col gap-2 text-start">
+                <label style="font-size: 20px; font-family: 'Tw Cen MT', serif" class="text-lg font-bold" for="nombreObra">
+                    Título de la Obra*:
+                </label>
+                <input class="bg-transparent py-1 pl-2 border-b border-sky-900
+                            focus:border-sky-200 transition-all focus:scale-105 focus:font-normal"
+                       type="text" name="nombreObra" id="nombreObra" placeholder="La noche estrellada"
+                       th:field="*{tituloObra}" maxlength="60" required="true"/>
+                <small class="text-red-900">Ingresa el título de la obra, este campo es obligatorio</small>
+            </div>
+            <br>
+
+            <div class="flex flex-col gap-2 text-start">
+                <label style="font-size: 20px; font-family: 'Tw Cen MT', serif" class="text-lg font-bold" for="descripcionObra">
+                    Descripción de la Obra*:
+                </label>
+                <input class="bg-transparent py-1 pl-2 border-b border-sky-900
+                            focus:border-sky-200 transition-all focus:scale-105 focus:font-normal"
+                       type="text" name="descripcionObra" id="descripcionObra" placeholder="Pintura sobre óleo"
+                       th:field="*{descripcionObra}" maxlength="200" required="true"/>
+                <small class="text-red-900">Ingresa una descripción de la obra, este campo es obligatorio</small>
+            </div>
+            <br>
+
+            <div class="flex flex-col gap-2 text-start">
+                <label style="font-size: 20px; font-family: 'Tw Cen MT', serif" class="text-lg font-bold" for="fechaPub">
+                    Fecha de publicación*:
+                </label>
+                <input class="bg-transparent py-1 pl-2 border-b border-sky-900
+                            focus:border-sky-200 transition-all focus:scale-105 focus:font-normal"
+                       type="date" name="fechaPub" id="fechaPub" th:field="*{fechaPub}" required="true"/>
+                <small class="text-red-900">Selecciona la fecha de publicación de la obra</small>
+            </div>
+            <br>
+
+            <div class="flex flex-col gap-2 text-start">
+                <label style="font-size: 20px; font-family: 'Tw Cen MT', serif" class="text-lg font-bold" for="tecnicaObra">
+                    Técnica utilizada*:
+                </label>
+                <input class="bg-transparent py-1 pl-2 border-b border-sky-900
+                            focus:border-sky-200 transition-all focus:scale-105 focus:font-normal"
+                       type="text" name="tecnicaObra" id="tecnicaObra" placeholder="Óleo sobre lienzo"
+                       th:field="*{tecnicaObra}" maxlength="60" required="true"/>
+                <small class="text-red-900">Ingresa la técnica utilizada en la obra, este campo es obligatorio</small>
+            </div>
+            <br>
+
+            <div class="flex flex-col gap-2 text-start">
+                <label style="font-size: 20px; font-family: 'Tw Cen MT', serif" class="text-lg font-bold" for="foto">
+                    Foto de la obra*:
+                </label>
+                <input class="bg-transparent py-1 pl-2 border-b border-sky-900
+                            focus:border-sky-200 transition-all focus:scale-105 focus:font-normal"
+                       type="file" name="foto" id="foto" required="true" accept="image/*"/>
+                <small class="text-red-900">Agrega una imagen de la obra</small>
+                <img class="img-thumbnail" id="previewImage" alt="Imagen subida"
+                     style="max-width:300px; margin:20px auto; border:1px solid rgb(15,15,15);">
+            </div>
+            <br>
+
+            <div class="flex flex-col gap-2 text-start">
+                <label style="font-size: 20px; font-family: 'Tw Cen MT', serif" class="text-lg font-bold" for="artista">
+                    Seleccionar artista(s)*:
+                </label>
+                <select id="artista" name="artista" th:field="*{artistas}" multiple="multiple" required>
+                    <option th:each="artista : ${artistas}" th:value="${artista.idArtista}"
+                            th:text="${artista.nombreArtista} + ' ' + ${artista.apellidoArtista}">
+                    </option>
+                </select>
+                <small class="text-red-900">Selecciona uno o varios artistas para la obra</small>
+            </div>
+            <br>
+
+            <div class="flex flex-col justify-center items-center mb-4">
+                <input class="border border-purple-600 py-2 px-4 rounded bg-purple-200
+                            hover:bg-purple-600 hover:text-white transition-all active:scale-105
+                            font-bold text-lg text-black m-auto" type="submit" value="Crear Obra">
+            </div>
+        </form>
+    </div>
+</section>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+<script>
+    const fileInput = document.getElementById('foto');
+    const previewImage = document.getElementById('previewImage');
+    const errorMessage = document.getElementById('error');
+    const maxSizeInMB = 2; //
+
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Verificar el tamaño del archivo
+            if (file.size > maxSizeInMB * 1024 * 1024) {
+                errorMessage.textContent = `El archivo debe ser menor o igual a ${maxSizeInMB} MB.`;
+                previewImage.style.display = 'none';
+                fileInput.value = ''; // Limpiar la selección del archivo inválido
+                fileInput.disabled = false; // Habilitar el input nuevamente
+            } else {
+                errorMessage.textContent = '';
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            }
+        } else {
+            errorMessage.textContent = '';
+            previewImage.style.display = 'none';
+        }
+    });
+</script>
+
+</html>

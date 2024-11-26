@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-800 text-white flex flex-col justify-center items-center min-h-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+<section class="w-4/5 p-8 pt-32">
+    <h1 class="text-3xl font-bold uppercase mb-6">Registrar Categoría</h1>
+    <form th:action="@{/crearCategoria}" method="post" th:object="${categoria}">
+        <div class="mb-4">
+            <label for="nombreCategoria" class="block">Nombre de la Categoría:</label>
+            <input type="text" id="nombreCategoria" name="nombreCategoria" th:field="*{nombreCategoria}" required
+                   class="w-full p-2 border border-gray-400 rounded bg-gray-700 text-white">
+        </div>
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition-all">Registrar</button>
+        <a th:href="@{/categoria}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-all ml-4">Cancelar</a>
+    </form>
+</section>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

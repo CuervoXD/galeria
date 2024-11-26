@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-black text-white flex flex-col justify-center items-center h-screen w-screen">
+<header th:replace="~{layout/layout :: header}"></header>
+<div th:replace="~{layout/layout :: fondo}"></div>
+
+<section class="w-screen h-screen flex flex-col justify-center items-center gap-y-4 text-black pt-32">
+  <h1 class="text-3xl font-bold uppercase mb-6" th:text="${title}"></h1>
+
+  <!---MENSAJE DE ERROR--->
+  <div th:if ="${errorMessage}" class="bg-cyan-600 text-white p-2 rounded ">
+    [[${errorMessage}]]
+  </div>
+
+  <div class="overflow-y-scroll w-3/5 m-5 p-8">
+    <form th:object= "${prestamo}" th:action="@{crearPrestamo}" method="post">
+      <div class="flex flex-col gap-2 text-start">
+        <label style="font-size: 20px; font-family: 'Tw Cen MT' , serif"
+               class="text-lg font-bold" for ="usuario">Usuario:</label>
+        <select id="usuario" th:field="*{idUsuario}" required="true"
+                class="bg-cyan-600 py-1 pl-2 border-b border-sky-90
+                        focus:border-sky-200 transition-all focus:scale-105 focus:font-normal ">
+          <option th:each="usuario : ${usuarios}"
+                  th:value="${usuario.idUsuario}"
+                  th:text="${usuario.nombreUsu} + ' ' + ${usuario.apellidoUsu}"></option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-2 text-start">
+        <label style="font-size: 20px; font-family: 'Tw Cen MT' , serif"
+               class="text-lg font-bold" for ="libro">Libro:</label>
+        <select id="libro" th:field="*{idLibro}" required="true"
+                class="bg-cyan-600 py-1 pl-2 border-b border-sky-90
+                        focus:border-sky-200 transition-all focus:scale-105 focus:font-normal">
+          <option th:each="libro : ${libros}"
+                  th:value="${libro.idLibro}"
+                  th:text="${libro.titulo}"></option>
+        </select>
+      </div>
+
+      <br>
+
+      <div class="flex flex-col gap-2 text-start">
+        <label for="fechaPrest">Fecha de prestamo: </label>
+        <input type="text" id="fechaPrest" th:field="*{fechaPrest}" required readonly
+               class="bg-cyan-600 border-b border-black">
+        <script>
+          window.onload = function (){
+            const fechaInput = document.getElementById("fechaPrest");
+            const fechaActual = new Date().toISOString().split('T')[0];
+            fechaInput.value=fechaActual;
+          };
+        </script>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <button type="submit" class="bg-cyan hover:bg-cyan-600 text-black font-bold py-2 px-4 rounded">
+          Registrar Préstamo
+        </button>
+        <a href="/prestamos" class="bg-gray-400 hover:bg-cyan-600 text-black font-bold py-2 px-4
+                rounded text-center">Cancelar </a>
+      </div>
+    </form>
+  </div>
+</section>
+</body>
+</html>

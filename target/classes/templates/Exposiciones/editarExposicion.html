@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-800 text-white flex flex-col justify-center items-center min-h-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+<section class="w-4/5 p-8 pt-32">
+  <h1 class="text-3xl font-bold uppercase mb-6" th:text="'Editar Exposición: ' + ${exposicion.tituloExpo}"></h1>
+  <form th:action="@{/editarExposicion/{id}(id=${exposicion.idExposicion})}" method="post" th:object="${exposicion}">
+    <div class="mb-4">
+      <label for="tituloExpo" class="block">Título:</label>
+      <input type="text" id="tituloExpo" name="tituloExpo" th:field="*{tituloExpo}" required
+             class="w-full p-2 border border-gray-400 rounded bg-gray-700 text-white">
+    </div>
+    <div class="mb-4">
+      <label for="descripcionExpo" class="block">Descripción:</label>
+      <textarea id="descripcionExpo" name="descripcionExpo" th:field="*{descripcionExpo}" required
+                class="w-full p-2 border border-gray-400 rounded bg-gray-700 text-white"></textarea>
+    </div>
+    <div class="mb-4">
+      <label for="fechaInicio" class="block">Fecha de Inicio:</label>
+      <input type="date" id="fechaInicio" name="fechaInicio" th:field="*{fechaInicio}" required
+             class="w-full p-2 border border-gray-400 rounded bg-gray-700 text-white">
+    </div>
+    <div class="mb-4">
+      <label for="fechaFin" class="block">Fecha de Fin:</label>
+      <input type="date" id="fechaFin" name="fechaFin" th:field="*{fechaFin}" required
+             class="w-full p-2 border border-gray-400 rounded bg-gray-700 text-white">
+    </div>
+    <div class="mb-4">
+      <label for="obras" class="block">Obras en la Exposición:</label>
+      <select id="obras" name="obra" multiple
+              th:each="obra : ${obras}" th:value="${obra.idObra}" th:field="*{obra}"
+              th:text="${obra.tituloObra}"
+              class="w-full p-2 border border-gray-400 rounded bg-gray-700 text-white">
+      </select>
+    </div>
+    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition-all">Guardar Cambios</button>
+    <a th:href="@{/exposicion}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 transition-all ml-4">Cancelar</a>
+  </form>
+</section>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

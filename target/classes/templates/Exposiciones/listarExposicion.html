@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-800 text-black flex flex-col justify-center items-center min-h-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+<section class="w-full flex flex-col items-center gap-4 p-4 pt-32">
+    <h1 class="text-3xl font-bold uppercase mb-6">Listado de Exposiciones</h1>
+    <div class="w-4/5">
+        <table class="table-auto w-full bg-white text-gray-900 rounded-lg overflow-hidden shadow-lg">
+            <thead class="bg-gray-900 text-white">
+            <tr>
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Título</th>
+                <th class="px-4 py-2">Descripción</th>
+                <th class="px-4 py-2">Fechas</th>
+                <th class="px-4 py-2">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exposicion : ${exposiciones}" class="text-center hover:bg-gray-100">
+                <td class="border px-4 py-2" th:text="${exposicion.idExposicion}"></td>
+                <td class="border px-4 py-2" th:text="${exposicion.tituloExpo}"></td>
+                <td class="border px-4 py-2" th:text="${exposicion.descripcionExpo}"></td>
+                <td class="border px-4 py-2" th:text="${#dates.format(exposicion.fechaInicio, 'yyyy-MM-dd')} + ' - ' + ${#dates.format(exposicion.fechaFin, 'yyyy-MM-dd')}"></td>
+                <td class="border px-4 py-2">
+                    <a class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700 transition-all"
+                       th:href="@{/detalleExposicion/{id}(id=${exposicion.idExposicion})}">
+                        Ver
+                    </a>
+                    <a class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700 transition-all"
+                       th:href="@{/editarExposicion/{id}(id=${exposicion.idExposicion})}">
+                        Editar
+                    </a>
+                    <form th:action="@{/eliminarExposicion/{id}(id=${exposicion.idExposicion})}" method="post" style="display:inline;">
+                        <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition-all" type="submit">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-700 transition-all" th:href="@{/crearExposicion}">Registrar Exposición</a>
+</section>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

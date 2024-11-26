@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-800 text-white flex flex-col justify-center items-center min-h-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+<section class="w-4/5 p-8 pt-32 bg-white rounded-xl ">
+    <h1 class="text-3xl text-black font-bold uppercase mb-6" th:text="'Detalle de la Exposición: ' + ${exposicion.tituloExpo}"></h1>
+    <p><strong class="text-black">Descripción:</strong> <span th:text="${exposicion.descripcionExpo}" class="text-black"></span></p>
+    <p><strong class="text-black">Fecha Inicio:</strong> <span th:text="${#dates.format(exposicion.fechaInicio, 'yyyy-MM-dd')}" class="text-black"></span></p>
+    <p><strong class="text-black">Fecha Fin:</strong> <span th:text="${#dates.format(exposicion.fechaFin, 'yyyy-MM-dd')} " class="text-black"></span></p>
+    <h2 class="text-2xl mt-6 text-black">Obras en la Exposición:</h2>
+    <ul>
+        <li th:each="obra : ${exposicion.obras}" th:text="${obra.tituloObra}" class="text-black"></li>
+    </ul>
+    <br>
+    <a class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700 transition-all" th:href="@{/exposicion}">Volver al listado</a>
+</section>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

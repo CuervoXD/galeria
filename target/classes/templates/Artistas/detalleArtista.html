@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-black text-white flex flex-col justify-center items-center h-screen w-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+<section class="w-full h-full flex flex-col justify-center items-center gap-4 p-4 text-white">
+    <h1 class="text-3xl font-bold uppercase mb-6">[[${title}]]</h1>
+
+    <div class="bg-white bg-opacity-60 p-6 rounded-lg text-black w-full max-w-2xl">
+
+        <h1 class="text-3xl font-bold uppercase">[[${detalleA.nombreArtista}]] [[${detalleA.apellidoArtista}]]</h1>
+        <br>
+        <h2 class="font-bold"><span> País de Nacimiento: </span>[[${detalleA.paisArtista}]]</h2>
+        <h2 class="font-bold"><span> Fecha de Nacimiento: </span>[[${detalleA.fechaNacimiento}]]</h2>
+        <h2 class="text-2xl font-bold uppercase mb-4">Obras Asociadas: </h2>
+        <ul>
+            <li th:each="obra : ${obras}" class="text-lg">
+                <span th:text="${obra.titulo}"></span>
+            </li>
+        </ul>
+    </div>
+</section>
+<br>
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+<body class="bg-gray-800 text-black flex flex-col justify-center items-center min-h-screen">
+<div th:replace="~{layout/layout :: fondo}"></div>
+<header class="relative" th:replace="~{layout/layout :: header}"></header>
+
+<section class="w-4/5 p-8 pt-32">
+    <h1 class="text-3xl font-bold uppercase mb-6">Listado de Categorías</h1>
+    <a th:href="@{/crearCategoria}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition-all mb-4 inline-block">Registrar Nueva Categoría</a>
+    <table class="table-auto w-full text-left border border-gray-700">
+        <thead>
+        <tr>
+            <th class="px-4 py-2 border-b border-gray-600">#</th>
+            <th class="px-4 py-2 border-b border-gray-600">Nombre</th>
+            <th class="px-4 py-2 border-b border-gray-600">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="categoria, iterStat : ${categorias}">
+            <td class="px-4 py-2 border-b border-gray-600" th:text="${iterStat.index + 1}"></td>
+            <td class="px-4 py-2 border-b border-gray-600" th:text="${categoria.nombreCategoria}"></td>
+            <td class="px-4 py-2 border-b border-gray-600">
+                <a th:href="@{/detalleCategoria/{id}(id=${categoria.idCategoria})}" class="text-blue-400 hover:underline">Detalles</a> |
+                <a th:href="@{/editarCategoria/{id}(id=${categoria.idCategoria})}" class="text-green-400 hover:underline">Editar</a> |
+                <a th:href="@{/eliminarCategoria/{id}(id=${categoria.idCategoria})}" class="text-red-400 hover:underline" onclick="return confirm('¿Estás seguro de eliminar esta categoría?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<footer class="relative" th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

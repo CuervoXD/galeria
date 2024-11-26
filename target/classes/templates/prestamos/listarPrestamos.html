@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}"></head>
+
+<body class="bg-cyan-800 text-white flex flex-col justify-center items-center h-screen w-screen">
+  <header th:replace="~{layout/layout :: header}"></header>
+  <div th:replace="~{layout/layout :: fondo}"></div>
+  <div th:replace="~{layout/layout :: nuevo}"></div>
+
+  <section class="w-screen h-screen flex flex-col justify-center items-center
+                  gap-y-4 text-cyan-950 pt-32">
+    <h1 class="text-3xl font-bold uppercase mb-6" th:text="${title}"></h1>
+      <!------------------Filtro para busquedas---------------------------------------------->
+      <form th:action="@{/prestamo}" method="get" class="flex gap-4 mb-4">
+        <input type="text" id="searchTerm" name="searchTerm" placeholder="Buscar..."
+              class="p-2 border border-white" th:value="${searchTerm}"/>
+
+        <select id="filterType" name="filterType" class="p-2 border border-cyan-500">
+          <option value="usuario" th:selected="${filterType=='usuario'}">Usuario</option>
+          <option value="libro" th:selected="${filterType=='libro'}">Libro</option>
+        </select>
+        <button type="submit" class="p-2 bg-cyan-600 text-white">Buscar</button>
+      </form>
+      <div class="overflow-x-auto w-full">
+        <table class="min-w-full bg-cyan-700 border border-cyan-500">
+          <thead class="py-2 px-4 border-b text-white">
+            <tr>
+              <th>Id prestamo</th>
+              <th>Libro</th>
+              <th>Usuario</th>
+              <th>Fecha del prestamo</th>
+              <th>Fecha de devolucion</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody style="background-color:white">
+            <tr th:each="prestamo: ${prestamos}">
+              <td th:text="${prestamo.idPrestamo}" class="text-center"></td>
+              <td>
+                <a th:ref="@{/detalleLibro/{id}(id=${prestamo.libro.idLibro})}"
+                th:text="${prestamo.idLibro.titulo}"
+                class="text-blue-700 hober:underline" >
+                </a>
+              </td>
+              <td th:text="${prestamo.idUsuario.nombreUsu} + ' ' + ${prestamo.idUsuario.apellidoUsu}"></td>
+              <td th:text="${#dates.format(prestamo.fechaPrest,'yyyy-MM-dd')}" class="text-center"></td>
+              <td th:text="${prestamo.fechaDev != null? #dates.format(prestamo.fechaDev, 'yyyy-MM-dd') : 'No devuelto'}"></td>
+              <td class="flex justify-center">
+                <a th:href="@{/editarPrestamo/}+${prestamo.idPrestamo}" title="Editar Prestamo">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </section>
+
+
+</body>
+</html>

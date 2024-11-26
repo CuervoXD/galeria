@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thumeleaf.org/extras/spring-security">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[[${title}]]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-red-200 text-white flex justify-center items-center h-screen w-screen"
+      th:style="'background-image:url('+@{/images/fondo.jpg}+');
+background-size:cover; background- position:center;backdrop-filter:blur(2px)'"
+>
+<!--Inicio del encabezado / banner -->
+
+<header th:fragment="header">
+
+    <nav class="absolute top-0 left-0 right-0 flex justify-between
+     bg-lime-100 py-4 px-20 w-screen h-[70px]">
+        <div class="w-full h-full flex items-center text-md font-bold text-black">
+            <a th:href="@{/}" class="bg-white rounded-xl px-2 flex items-center h-full
+               gap-2 shadow-md shadow-black">
+                <img src="/images/home.png" alt="" class="h-full">
+                <span>HOME</span>
+
+            </a>
+        </div>
+        <ul class="flex gap-12 py-2 justify-between w-full h-full list-disc"
+        sec:authorize="isAunthenticated()">
+            <li class="text-black hover:text-slate-600 hover:underline transition-all
+             underline-offset-4 ">
+                <a th:href="@{/obra}">
+                    OBRAS
+                </a>
+
+            </li>
+            <li class="text-black hover:text-slate-600 hover:underline transition-all
+             underline-offset-4">
+                <a th:href="@{/artista}">
+                    ARTISTAS
+                </a>
+
+            </li>
+            <li class="text-black hover:text-slate-600 hover:underline transition-all
+             underline-offset-4" sec:authorize="hasRole('BIBLIOTECARIO')">
+                <a th:href="@{/categoria}">
+                    CATEGORIAS
+                </a>
+
+            </li>
+            <li class="text-black hover:text-slate-600 hover:underline transition-all
+             underline-offset-4" sec:authorize="hasRole('BIBLIOTECARIO')">
+                <a th:href="@{/exposicion}">
+                    EXPOSICIONES
+                </a>
+
+            </li>
+        </ul>
+
+        <ul class="flex gap-4 w-full h-full justify-end">
+            <li class="border-2 border-slate-800 px-2 py-1 rounded hover:bg-slate-400
+                  text-black hover:text-slate-600 text-center active:scale-105 p-4
+                  transition-all hover:cursor-pointer hover-ring-2" sec:authorize="isAnonymous()">
+                    <a th:href="@{/register}">Registrar</a>
+            </li>
+
+            <li class="border-2 border-slate-800 px-2 py-1 rounded hover:bg-slate-400
+                  text-black hover:text-slate-600 text-center active:scale-105 p-4
+                  transition-all hover:cursor-pointer hover-ring-2" sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}">Iniciar Sesión</a>
+            </li>
+
+            <li class="border-2 border-slate-800 px-2 py-1 rounded hover:bg-slate-400
+                  text-black hover:text-slate-600 text-center active:scale-105 p-4
+                  transition-all hover:cursor-pointer hover-ring-2" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <a class="nav-link l-login" onclick="this.parentNode.submit();"
+                            href="#">Cerrar Sesión
+
+                        </a>
+
+                    </form>
+            </li>
+
+        </ul>
+
+</nav>
+
+</header>
+<!--Fin del encabezado / banner -->
+<!-- Agregar nuevo item -->
+<div th:fragment="nuevo" class="absolute top-[70px] left-0 right-0
+     flex justify-between bg-amber-100 py-4 px-20 w-screen h-[50px]" sec:authorize="hasRole('BIBLIOTECARIO')">
+    <ul class="w-full flex justify-end items-center">
+        <li class="flex gap-4 p-2 border border-white
+        rounded-xl hover:bg-white hover:text-cyan-950
+        text-sm active:scale-105 transition-all">
+            <a th:href="@{${urlRegistro}}">Agregar nuevo registro</a>
+        </li>
+    </ul>
+
+</div>
+
+<!-- fondo -->
+<div th:fragment="fondo"
+    class="absolute top-0 z-[-2] h-screen w-screen bg-red-200">
+</div>
+<!-- fondo -->
+<footer th:fragment="footer">
+    <div class="text-center text-black absolute bottom-0 left-0 right-0">
+        &copy 2024. Casi todos los derechos reservados
+    </div>
+</footer>
+
+</body>
+
+</html>
